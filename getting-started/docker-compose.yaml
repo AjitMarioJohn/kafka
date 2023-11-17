@@ -41,18 +41,61 @@ services:
     networks:
       - kafka-network
 
-  schema-registry:
-    hostname: schema-registry
-    container_name: schema-registry
-    image: confluentinc/cp-schema-registry:latest
-    depends_on:
-      - kafka1
+  # schema-registry:
+  #   hostname: schema-registry
+  #   container_name: schema-registry
+  #   image: confluentinc/cp-schema-registry:latest
+  #   depends_on:
+  #     - kafka1
+  #   environment:
+  #     SCHEMA_REGISTRY_HOST_NAME: schema-registry
+  #     SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka1:9092'
+    # networks:
+    #   - kafka-network
+  postgresql:
+    image: postgres:14
+    hostname: postgresql
+    volumes:
+      - pg_data:/var/lib/postgresql/data
     environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka1:9092'
+      POSTGRES_DB: "conduktor-platform"
+      POSTGRES_USER: "conduktor"
+      POSTGRES_PASSWORD: "change_me"
+      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
     networks:
       - kafka-network
 
+  conduktor-platform:
+    image: conduktor/conduktor-platform:1.19.0
+    depends_on:
+      - postgresql
+    ports:
+      - "8080:8080"
+    volumes:
+      - conduktor_data:/var/conduktor
+    environment:
+      CDK_DATABASE_URL: "postgresql://conduktor:change_me@postgresql:5432/conduktor-platform"
+      CDK_MONITORING_CORTEX-URL: http://conduktor-monitoring:9009/
+      CDK_MONITORING_ALERT-MANAGER-URL: http://conduktor-monitoring:9010/
+      CDK_MONITORING_CALLBACK-URL: http://conduktor-platform:8080/monitoring/api/
+      CDK_MONITORING_NOTIFICATIONS-CALLBACK-URL: http://localhost:8080
+    healthcheck:
+      test: curl -f http://localhost:8080/platform/api/modules/health/live || exit 1
+      interval: 10s
+      start_period: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - kafka-network
+  conduktor-monitoring:
+    image: conduktor/conduktor-platform-cortex:1.19.0
+    environment:
+      CDK_CONSOLE-URL: "http://conduktor-platform:8080"
+    networks:
+      - kafka-network
+volumes:
+  pg_data: {}
+  conduktor_data: {}
 networks:
  kafka-network:
     driver: bridge
