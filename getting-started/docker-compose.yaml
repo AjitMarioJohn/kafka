@@ -41,17 +41,17 @@ services:
     networks:
       - kafka-network
 
-  # schema-registry:
-  #   hostname: schema-registry
-  #   container_name: schema-registry
-  #   image: confluentinc/cp-schema-registry:latest
-  #   depends_on:
-  #     - kafka1
-  #   environment:
-  #     SCHEMA_REGISTRY_HOST_NAME: schema-registry
-  #     SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka1:9092'
-    # networks:
-    #   - kafka-network
+  schema-registry:
+    hostname: schema-registry
+    container_name: schema-registry
+    image: confluentinc/cp-schema-registry:latest
+    depends_on:
+      - kafka1
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka1:9092'
+    networks:
+      - kafka-network
   postgresql:
     image: postgres:14
     hostname: postgresql
