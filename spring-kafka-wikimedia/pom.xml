@@ -79,4 +79,116 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>static</id>
+			<activation>
+				<activeByDefault>
+					true
+				</activeByDefault>
+				<property>
+					<name>
+						static
+					</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<goals>
+							<goal>check</goal>
+							<goal>report</goal>
+							<goal>report-aggregate</goal>
+						</goals>
+						<configuration>
+							<haltOnFailure>true</haltOnFailure>
+							<rules>
+								<rule>
+									<element>CLASS</element>
+									<limits>
+										<limit>
+											<counter>INSTRUCTION</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.00</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+<!--							<formats>-->
+<!--								<format>-->
+<!--									html-->
+<!--								</format>-->
+<!--							</formats>-->
+						</configuration>
+						<executions>
+							<execution>
+								<id>jacoco-check</id>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>report</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>report-aggregate</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>prepare-agent</id>
+								<goals>
+									<goal>prepare-agent</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>default-report</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>report</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-pmd-plugin</artifactId>
+						<configuration>
+							<goal>check</goal>
+<!--							<excludeFromFailureFile></excludeFromFailureFile>-->
+							<linkXRef>false</linkXRef>
+						</configuration>
+						<executions>
+							<execution>
+								<id>report</id>
+								<phase>verify</phase>
+								<goals>
+									<!-- pmd check -->
+									<goal>check</goal>
+									<!-- CPD check -->
+									<goal>cpd-check</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<!-- ignore for static analysis -->
+			<id>development</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>
+						<!-- when this run, it will turn off static -->
+						!static
+					</name>
+				</property>
+			</activation>
+
+		</profile>
+	</profiles>
+
 </project>

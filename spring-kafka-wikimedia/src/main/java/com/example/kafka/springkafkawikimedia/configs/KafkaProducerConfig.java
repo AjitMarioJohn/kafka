@@ -1,9 +1,6 @@
 package com.example.kafka.springkafkawikimedia.configs;
 
 import com.example.kafka.springkafkawikimedia.commons.WikimediaConstant;
-import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
-import io.github.resilience4j.reactor.circuitbreaker.operator.CircuitBreakerOperator;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -32,14 +29,4 @@ public class KafkaProducerConfig {
         return new KafkaTemplate<>(producerFactory());
     }
 
-    @Bean
-    public CircuitBreaker kafkaCircuitBreaker() {
-        CircuitBreakerConfig circuitBreakerConfig = CircuitBreakerConfig.ofDefaults();
-        return CircuitBreaker.of("kafkaTemplate", circuitBreakerConfig);
-    }
-
-    @Bean
-    public CircuitBreakerOperator kafkaCircuitBreakerOperator() {
-        return CircuitBreakerOperator.of(kafkaCircuitBreaker());
-    }
 }
