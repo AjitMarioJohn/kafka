@@ -4,3 +4,11 @@
 /kafka-first-project/.idea/codeStyles/Project.xml
 /kafka-first-project/.idea/misc.xml
 /.idea/
+spring-kafka-wikimedia/.mvn/wrapper/maven-wrapper.jar
+*.jar
+spring-kafka-wikimedia/.mvn/wrapper/maven-wrapper.jar
+spring-kafka-wikimedia/mvnw.cmd
+spring-kafka-wikimedia/mvnw
+spring-kafka-wikimedia/.mvn/wrapper/maven-wrapper.jar
+spring-kafka-wikimedia/.mvn/wrapper/maven-wrapper.properties
+*.jar
