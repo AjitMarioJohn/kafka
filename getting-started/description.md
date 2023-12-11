@@ -54,3 +54,6 @@ docker-compose exec kafka1 kafka-consumer-perf-test --bootstrap-server kafka1:90
 docker-compose exec kafka1 kafka-consumer-groups --bootstrap-server kafka1:9092 --describe --group first-consumer-group
 
 
+# Reference
+https://kafka.apache.org/quickstart
+export KAFKA_HEAP_OPTS="-Xmx2G"

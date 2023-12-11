@@ -1,8 +1,7 @@
-package org.example.kfp.basic.commons;
+package org.wikimedia;
 
-public class KafkaConstants {
-
-    private KafkaConstants(){}
+public class WikimediaConstants {
+    private WikimediaConstants() {}
 
     public static final String BOOTSTRAP_SERVERS_KEY = "bootstrap.servers";
     public static final String BOOTSTRAP_SERVER_URL = "localhost:9092";
@@ -17,4 +16,7 @@ public class KafkaConstants {
     public static final String AUTO_OFFSET_RESET = "auto.offset.reset";
     public static final String PARTITION_ASSIGNMENT_STRATEGY = "partition.assignment.strategy";
 
+    public static final String WIKIMEDIA_URL = "https://stream.wikimedia.org/v2/stream/recentchange/";
+
+    public static final String ENABLE_IDEMPOTENCE = "enable.idempotence";
 }

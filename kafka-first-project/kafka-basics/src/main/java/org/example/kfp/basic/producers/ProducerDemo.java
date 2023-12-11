@@ -26,7 +26,7 @@ public class ProducerDemo {
 
 
             // create producer record
-            ProducerRecord<String, String> record = new ProducerRecord<>("first_topic", "Hello Kafka!");
+            ProducerRecord<String, String> record = new ProducerRecord<>(KafkaConstants.TOPIC, "Hello Kafka from code!");
 
             // send the data
             producer.send(record);
