@@ -57,3 +57,7 @@ docker-compose exec kafka1 kafka-consumer-groups --bootstrap-server kafka1:9092 
 # Reference
 https://kafka.apache.org/quickstart
 export KAFKA_HEAP_OPTS="-Xmx2G"
+
+# Blog
+# best practices for deciding topics name
+https://cnr.sh/essays/how-paint-bike-shed-kafka-topic-naming-conventions
